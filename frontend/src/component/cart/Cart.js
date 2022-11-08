@@ -2,7 +2,7 @@ import React, { Fragment } from "react";
 import CartItemCard from "./CartItemCard.js";
 import { useSelector, useDispatch } from "react-redux";
 import {addItemsToCart,removeItemFromCart} from "../../actions/cartAction"
-import {MdRemoveShoppingCart} from "react-icons/md" 
+import RemoveShoppingCartIcon from '@mui/icons-material/RemoveShoppingCart';
 import { Link, useNavigate } from "react-router-dom";
 import MetaData from "../layout/MetaData.js";
 
@@ -36,7 +36,7 @@ const Cart = () => {
     <Fragment>
       <MetaData title="Cart --- Ecommerce"/>
       {
-        cartItems.length === 0 ? <div className="flex flex-col justify-center items-center w-[100vw] h-[100vh] max-w-full "><MdRemoveShoppingCart className="text-[tomato] text-[10vmax]"/><p className="my-[2vmax]">No Product in Your Cart</p> <Link to='/products' className="bg-[#333333] text-white p-[12px_34px]">View Products</Link> </div> : (<Fragment>
+        cartItems.length === 0 ? <div className="flex flex-col justify-center items-center w-[100vw] h-[100vh] max-w-full "><RemoveShoppingCartIcon className="text-[tomato] text-[10vmax]"/><p className="my-[2vmax]">No Product in Your Cart</p> <Link to='/products' className="bg-[#333333] text-white p-[12px_34px]">View Products</Link> </div> : (<Fragment>
 
           <div className="cartPage">
             <div className="cartHade grid grid-cols-[3fr_1fr_1fr] py-3 bg-[tomato] text-white md:w-[90%] md:m-[6vmax_auto_0]">

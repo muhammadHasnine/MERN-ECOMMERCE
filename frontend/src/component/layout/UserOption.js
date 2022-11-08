@@ -2,7 +2,7 @@ import React, { Fragment, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch,useSelector } from "react-redux";
 import {logOut} from "../../actions/userAction"
-import {useToasts} from "react-toast-notifications"
+import { toast } from "react-toastify";
 import { SpeedDial, SpeedDialAction } from  '@mui/material'
 import Backdrop from "@mui/material/Backdrop";
 import DashboardIcon from "@mui/icons-material/Dashboard";
@@ -15,7 +15,6 @@ const UserOption = ({ user }) => {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const {addToast} = useToasts()
   
   const options = [
     { icon: <ListAltIcon />, name: "Orders", func: orders },
@@ -39,15 +38,7 @@ const UserOption = ({ user }) => {
       func: dashboard,
     });
   }
-  // const options = [
-  //   { name:"Profile", icon: <MdPerson />, func: profile },
-  //   { name:"Order", icon: <CgList />, func: order },
-  //   { name:`Cart(${cartItems.length})`, icon: <MdShoppingCart style={{color:cartItems.length > 0 ? "tomato" : "unset"}} />, func: cart },
-  //   { name:"Logout", icon: <MdExitToApp />, func: logout },
-  // ];
-  // if (user.role === "admin") {
-  //   options.unshift({name:"Dashboard", icon: <MdDashboard />, func: dashboard });
-  // }
+
 
   function dashboard() {
     navigate("/admin/dashboard");
@@ -63,7 +54,7 @@ const UserOption = ({ user }) => {
   }
   function logoutUser() {
     dispatch(logOut());
-    addToast("Log Out Successfully", { appearance: 'success' });
+    toast.success("Log Out Successfully");
   }
   return (
     <Fragment>

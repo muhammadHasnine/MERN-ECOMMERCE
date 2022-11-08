@@ -2,17 +2,17 @@ import React, { Fragment, useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from "react-redux";
 import { clearErrors, resetPassword} from "../../actions/userAction";
-import { useToasts } from "react-toast-notifications";
+import { toast } from "react-toastify";
 import Loader from "../layout/Loader/Loader";
 import MetaData from "../layout/MetaData";
-import {MdLock,MdLockOpen} from "react-icons/md"
+import LockIcon from '@mui/icons-material/Lock';
+import LockOpenIcon from '@mui/icons-material/LockOpen'
 import "./ResetPassword.css"
 const ResetPassword = () => {
     const {token} = useParams();
     const { error, loading, success } = useSelector((state) => state.forgotPassword);
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { addToast } = useToasts();
   
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
@@ -29,14 +29,14 @@ const ResetPassword = () => {
    
     useEffect(() => {
       if (error) {
-        addToast(error, { appearance: "error" });
+        toast.error(error);
         dispatch(clearErrors());
       }
       if (success) {
-        addToast("Password Updated Successfully", { appearance: "success" });
+        toast.success("Password Updated Successfully");
         navigate("/login");
       }
-    }, [dispatch, error, success, navigate, addToast]);
+    }, [dispatch, error, success, navigate]);
   return (
     <Fragment>
     {loading ? (
@@ -52,7 +52,7 @@ const ResetPassword = () => {
             onSubmit={resetPasswordSubmit}
           >
             <div>
-                <MdLockOpen />
+                <LockOpenIcon />
                 <input
                   type="password"
                   placeholder="Password"
@@ -62,7 +62,7 @@ const ResetPassword = () => {
                 />
               </div>
             <div>
-                <MdLock />
+                <LockIcon />
                 <input
                   type="password"
                   placeholder="confirmPassword"

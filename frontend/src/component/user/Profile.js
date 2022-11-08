@@ -2,7 +2,7 @@ import React, { Fragment, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate, Link } from "react-router-dom";
 import Loader from "../layout/Loader/Loader";
-import {FiEdit} from "react-icons/fi"
+import EditIcon from '@mui/icons-material/Edit';
 import MetaData from "../layout/MetaData";
 const Profile = () => {
   const navigate = useNavigate();
@@ -23,7 +23,7 @@ const Profile = () => {
             <div className="container_box m-[5vw_auto_0] md:m-0 flex flex-col md:flex-row w-[90vw] md:w-[70vw]">
               <div className="1 w-full md:w-[30%] grid place-items-center bg-gradient-to-r from-[#ee5b6f] to-[#f29064] md:rounded-l-lg">
                 <img className="mt-4 w-[150px] h-[150px] rounded-full" src={user.avatar.url} alt={user.name} />
-                <Link className="flex items-center my-4 bg-[#03a9f4] py-1 px-4 font-medium gap-2 text-white" to="/me/update"><p>Edit Profile</p><FiEdit/></Link>
+                <Link className="flex items-center my-4 bg-[#03a9f4] py-1 px-4 font-medium gap-2 text-white" to="/me/update"><p>Edit Profile</p><EditIcon/></Link>
               </div>
               <div className="2 w-full md:w-[70%] bg-[#f0f0f0e8] p-7 md:rounded-r-lg">
                 <div className="my_profilePart1">

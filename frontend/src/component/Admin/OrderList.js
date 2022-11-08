@@ -5,15 +5,14 @@ import Sidebar from './Sidebar.js';
 import {useDispatch, useSelector} from 'react-redux';
 import {clearErrors,allOrders,deleteOrder,} from '../../actions/orderAction';
 import { DataGrid } from '@mui/x-data-grid';
-import {useToasts} from 'react-toast-notifications';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import {Button} from '@mui/material';
 import { DELETE_ORDERS_RESET } from '../../constants/orderConstants';
 import "./OrderList.css"
+import { toast } from "react-toastify";
 const OrderList = () => {
     const dispatch = useDispatch()
-    const {addToast} = useToasts()
     const navigate = useNavigate()
     const {error,orders}= useSelector(state=>state.allOrders)
     const {error:deleteError,isDeleted} = useSelector(state=>state.order)
@@ -23,20 +22,20 @@ const OrderList = () => {
 
     useEffect(()=>{
       if(error){
-        addToast(error,{appearance:"error"})
+        toast.error(error,)
         dispatch(clearErrors());
       }
       if(deleteError){
-        addToast(deleteError,{appearance:"error"})
+        toast.error(deleteError)
         dispatch(clearErrors())
       }
       if(isDeleted){
-        addToast("Order Deleted Successfully",{appearance:"success"})
+        toast.success("Order Deleted Successfully")
         navigate("/admin/orders")
         dispatch({type:DELETE_ORDERS_RESET})
       }
         dispatch(allOrders());
-    },[dispatch,addToast,error,deleteError,navigate,isDeleted])
+    },[dispatch,error,deleteError,navigate,isDeleted])
     const columns =[
       {
         field:"id",

@@ -5,14 +5,13 @@ import Sidebar from './Sidebar.js';
 import {useDispatch, useSelector} from 'react-redux';
 import {getAllReviews,clearErrors,deleteReview} from '../../actions/productAction';
 import { DataGrid } from '@mui/x-data-grid';
-import {useToasts} from 'react-toast-notifications';
+import { toast } from "react-toastify";
 import DeleteIcon from '@mui/icons-material/Delete';
 import {Button} from '@mui/material';
 import { DELETE_REVIEW_RESET } from '../../constants/productConstants';
 import Star from '@mui/icons-material/Star';
 const ProductReviews = () => {
     const dispatch = useDispatch()
-    const {addToast} = useToasts()
     const navigate = useNavigate()
     const {error,reviews,loading}= useSelector(state=>state.productReviews)
     const {error:deleteError,isDeleted} = useSelector(state=>state.review)
@@ -29,18 +28,18 @@ const ProductReviews = () => {
         dispatch(getAllReviews(productId))
       }
       if(error){
-        addToast(error,{appearance:"error"})
+        toast.error(error)
         dispatch(clearErrors());
       }
       if(deleteError){
-        addToast(deleteError,{appearance:"error"})
+        toast.error(deleteError)
         dispatch(clearErrors())
       }
       if(isDeleted){
-        addToast("Review Deleted Successfully",{appearance:"success"})
+        toast.success("Review Deleted Successfully")
         dispatch({type:DELETE_REVIEW_RESET})
       }
-    },[dispatch,addToast,error,deleteError,navigate,isDeleted,productId])
+    },[dispatch,error,deleteError,navigate,isDeleted,productId])
     const columns =[
       {
         field:"id",

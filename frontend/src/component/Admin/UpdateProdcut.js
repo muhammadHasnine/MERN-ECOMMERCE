@@ -2,7 +2,7 @@ import React, { Fragment, useEffect, useState } from "react";
 import "./newProduct.css";
 import { useSelector, useDispatch } from "react-redux";
 import { clearErrors,updateProduct ,getProductDetails } from "../../actions/productAction";
-import { useToasts } from "react-toast-notifications";
+import { toast } from "react-toastify";
 import { Button } from "@mui/material";
 import Sidebar from "./Sidebar";
 import MetaData from "../layout/MetaData";
@@ -15,7 +15,6 @@ import { UPDATE_PRODUCT_RESET } from "../../constants/productConstants";
 import { useNavigate, useParams } from "react-router-dom";
 const UpdateProduct = () => {
   const dispatch = useDispatch();
-  const { addToast } = useToasts();
   const navigate = useNavigate();
   const {productId} =useParams();
   const { error,product} = useSelector((state) => state.productDetails);
@@ -49,19 +48,19 @@ const UpdateProduct = () => {
       setOldImages(product.images)
     }
     if (error) {
-      addToast(error, { appearance: "error" });
+      toast.error(error);
       dispatch(clearErrors());
     }
     if (updateError) {
-      addToast(updateError, { appearance: "error" });
+      toast.error(updateError);
       dispatch(clearErrors());
     }
     if (isUpdated) {
-      addToast("Product Updated Successfully", { appearance: "success" });
+      toast.success("Product Updated Successfully");
       navigate("/admin/products");
       dispatch({ type: UPDATE_PRODUCT_RESET });
     }
-  }, [dispatch, addToast, error, navigate,product,isUpdated,updateError,productId]);
+  }, [dispatch, error, navigate,product,isUpdated,updateError,productId]);
 
   const uploadProductSubmitHandler = (e) => {
     e.preventDefault();

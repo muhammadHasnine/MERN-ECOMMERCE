@@ -2,16 +2,15 @@ import React, { Fragment, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { clearErrors, forgotPassword } from "../../actions/userAction";
-import { useToasts } from "react-toast-notifications";
+import { toast } from "react-toastify";
 import Loader from "../layout/Loader/Loader";
 import MetaData from "../layout/MetaData";
-import {MdMailOutline} from "react-icons/md" 
+import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import "./ForgotPassword.css"
 const ForgotPassword = () => {
     const { error, loading, message } = useSelector((state) => state.forgotPassword);
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { addToast } = useToasts();
   
     const [email, setEmail] = useState("")
   
@@ -24,14 +23,14 @@ const ForgotPassword = () => {
    
     useEffect(() => {
       if (error) {
-        addToast(error, { appearance: "error" });
+        toast.error(error);
         dispatch(clearErrors());
       }
       if (message) {
-        addToast(message, { appearance: "success" });
+        toast.success(message);
        
       }
-    }, [dispatch, error, message, navigate, addToast]);
+    }, [dispatch, error, message, navigate]);
   return (
     <Fragment>
     {loading ? (
@@ -47,7 +46,7 @@ const ForgotPassword = () => {
             onSubmit={forgotPasswordSubmit}
           >
            <div>
-                <MdMailOutline />
+                <MailOutlineIcon />
                 <input
                   type="email"
                   placeholder="Email"

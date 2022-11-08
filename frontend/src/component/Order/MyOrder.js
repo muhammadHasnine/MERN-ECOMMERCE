@@ -1,24 +1,23 @@
 import React, { Fragment, useEffect } from "react";
 import { clearErrors, myOrders } from "../../actions/orderAction";
 import { useDispatch, useSelector } from "react-redux";
-import { useToasts } from "react-toast-notifications";
+import { toast } from "react-toastify";
 import Loader from "../../component/layout/Loader/Loader";
 import LaunchIcon from '@mui/icons-material/Launch'
-import {MdCancel} from "react-icons/md" 
+import CancelIcon from '@mui/icons-material/Cancel'; 
 import MetaData from "../layout/MetaData";
 import { Link } from "react-router-dom";
 const MyOrder = () => {
   const { error, loading, orders } = useSelector((state) => state.myOrders);
   const {user} = useSelector(state=>state.user)
-  const { addToast } = useToasts();
   const dispatch = useDispatch();
   useEffect(() => {
     if (error) {
-      addToast(error, { appearance: "error" });
+      toast.error(error);
       dispatch(clearErrors());
     }
     dispatch(myOrders());
-  }, [dispatch, addToast, error]);
+  }, [dispatch, error]);
 
   return (
     <Fragment>
@@ -27,7 +26,7 @@ const MyOrder = () => {
       ) : (
         <Fragment>
            <MetaData title={`${user.name}--Orders`}/>
-          {orders.length === 0 ? <div className="flex flex-col justify-center items-center w-[100vw] h-[100vh] max-w-full "><MdCancel className="text-[tomato] text-[10vmax]"/><p className="my-[2vmax]">Order is empty go to Cart</p> <Link to='/cart' className="bg-[#333333] text-white p-[12px_34px]">View Cart</Link> </div> : (<div className="h-[100vh] w-[100vw] max-w-full bg-[rgb(235_235_235)] fixed top-0 left-0">
+          {orders.length === 0 ? <div className="flex flex-col justify-center items-center w-[100vw] h-[100vh] max-w-full "><CancelIcon className="text-[tomato] !text-[10vmax]"/><p className="my-[2vmax]">Order is empty go to Cart</p> <Link to='/cart' className="bg-[#333333] text-white p-[12px_34px]">View Cart</Link> </div> : (<div className="h-[100vh] w-[100vw] max-w-full bg-[rgb(235_235_235)] fixed top-0 left-0">
             <div className="Order_container overflow-x-auto">
               <div className="orderBox w-[1024px] m-auto">
                 <header className="flex bg-[tomato] text-white py-3 px-7 font-medium">

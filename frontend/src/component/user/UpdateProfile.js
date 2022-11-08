@@ -1,10 +1,11 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { MdMailOutline, MdFace } from "react-icons/md";
+import MailOutlineIcon from '@mui/icons-material/MailOutline';
+import FaceIcon from '@mui/icons-material/Face';
 import { useSelector, useDispatch } from "react-redux";
 import { clearErrors, updateProfile, loadUser } from "../../actions/userAction";
 import { UPDATE_PROFILE_RESET } from "../../constants/userConstants";
-import { useToasts } from "react-toast-notifications";
+import { toast } from "react-toastify";
 import Loader from "../layout/Loader/Loader";
 import MetaData from "../layout/MetaData";
 import "./UpdateProfile.css";
@@ -13,7 +14,6 @@ const UpdateProfile = () => {
   const { error, loading, isUpdated } = useSelector((state) => state.profile);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { addToast } = useToasts();
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -49,18 +49,18 @@ const UpdateProfile = () => {
       setAvatarPreview(user.avatar.url);
     }
     if (error) {
-      addToast(error, { appearance: "error" });
+      toast.error(error);
       dispatch(clearErrors());
     }
     if (isUpdated) {
-      addToast("Profile Updated Successfully", { appearance: "success" });
+      toast.success("Profile Updated Successfully");
       dispatch(loadUser());
       navigate("/account");
       dispatch({
         type: UPDATE_PROFILE_RESET,
       });
     }
-  }, [dispatch, error, isUpdated, navigate, addToast, user]);
+  }, [dispatch, error, isUpdated, navigate, user]);
   return (
     <Fragment>
       {loading ? (
@@ -77,7 +77,7 @@ const UpdateProfile = () => {
               onSubmit={updateProfileSubmit}
             >
               <div className="updateProfileName">
-                <MdFace />
+                <FaceIcon />
                 <input
                   type="text"
                   placeholder="Name"
@@ -88,7 +88,7 @@ const UpdateProfile = () => {
                 />
               </div>
               <div className="updateProfileEmail">
-                <MdMailOutline />
+                <MailOutlineIcon />
                 <input
                   type="email"
                   placeholder="Email"

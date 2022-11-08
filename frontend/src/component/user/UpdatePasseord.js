@@ -3,16 +3,17 @@ import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { clearErrors, updatePassword } from "../../actions/userAction";
 import { UPDATE_PASSWORD_RESET } from "../../constants/userConstants";
-import { useToasts } from "react-toast-notifications";
+import { toast } from "react-toastify";
 import Loader from "../layout/Loader/Loader";
 import MetaData from "../layout/MetaData";
-import {MdLock,MdVpnKey,MdLockOpen} from "react-icons/md"
+import VpnKeyIcon from '@mui/icons-material/VpnKey';
+import LockIcon from '@mui/icons-material/Lock';
+import LockOpenIcon from '@mui/icons-material/LockOpen';
 import "./UpdatePassword.css";
 const UpdatePasseord = () => {
     const { error, loading, isUpdated } = useSelector((state) => state.profile);
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { addToast } = useToasts();
   
     const [oldPassword, setOldPassword] = useState("");
     const [newPassword, setNewPassword] = useState("");
@@ -31,17 +32,17 @@ const UpdatePasseord = () => {
    
     useEffect(() => {
       if (error) {
-        addToast(error, { appearance: "error" });
+        toast.error(error);
         dispatch(clearErrors());
       }
       if (isUpdated) {
-        addToast("Password Updated Successfully", { appearance: "success" });
+        toast.success("Password Updated Successfully");
         navigate("/account");
         dispatch({
           type: UPDATE_PASSWORD_RESET,
         });
       }
-    }, [dispatch, error, isUpdated, navigate, addToast]);
+    }, [dispatch, error, isUpdated, navigate]);
   return (
     <Fragment>
     {loading ? (
@@ -57,7 +58,7 @@ const UpdatePasseord = () => {
             onSubmit={updatePasswordSubmit}
           >
             <div className="oldPassword">
-                <MdVpnKey />
+                <VpnKeyIcon />
                 <input
                   type="password"
                   placeholder="oldPassword"
@@ -67,7 +68,7 @@ const UpdatePasseord = () => {
                 />
               </div>
             <div className="newPassword">
-                <MdLockOpen />
+                <LockOpenIcon />
                 <input
                   type="password"
                   placeholder="newPassword"
@@ -77,7 +78,7 @@ const UpdatePasseord = () => {
                 />
               </div>
             <div className="confirmPassword">
-                <MdLock />
+                <LockIcon />
                 <input
                   type="password"
                   placeholder="confirmPassword"

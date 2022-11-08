@@ -5,14 +5,13 @@ import Sidebar from './Sidebar.js';
 import {useDispatch, useSelector} from 'react-redux';
 import {getAdminProducts,clearErrors,deleteProduct} from '../../actions/productAction';
 import { DataGrid } from '@mui/x-data-grid';
-import {useToasts} from 'react-toast-notifications';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import {Button} from '@mui/material';
 import { DELETE_PRODUCT_RESET } from '../../constants/productConstants';
+import { toast } from 'react-toastify';
 const ProductList = () => {
     const dispatch = useDispatch()
-    const {addToast} = useToasts()
     const navigate = useNavigate()
     const {error,products}= useSelector(state=>state.products)
     const {error:deleteError,isDeleted} = useSelector(state=>state.product)
@@ -22,19 +21,19 @@ const ProductList = () => {
 
     useEffect(()=>{
       if(error){
-        addToast(error,{appearance:"error"})
+        toast.error(error)
         dispatch(clearErrors());
       }
       if(deleteError){
-        addToast(deleteError,{appearance:"error"})
+        toast.error(deleteError)
         dispatch(clearErrors())
       }
       if(isDeleted){
-        addToast("Product Deleted Successfully",{appearance:"success"})
+        toast.success("Product Deleted Successfully")
         dispatch({type:DELETE_PRODUCT_RESET})
       }
         dispatch(getAdminProducts());
-    },[dispatch,addToast,error,deleteError,navigate,isDeleted])
+    },[dispatch,error,deleteError,navigate,isDeleted])
     const columns =[
       {
         field:"id",

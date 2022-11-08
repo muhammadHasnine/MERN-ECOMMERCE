@@ -2,7 +2,6 @@ import React, { Fragment, useEffect, useState } from "react";
 import "./newProduct.css";
 import { useSelector, useDispatch } from "react-redux";
 import { createProduct, clearErrors } from "../../actions/productAction";
-import { useToasts } from "react-toast-notifications";
 import { Button } from "@mui/material";
 import Sidebar from "./Sidebar";
 import MetaData from "../layout/MetaData";
@@ -13,9 +12,9 @@ import SpellcheckIcon from "@mui/icons-material/Spellcheck";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import { NEW_PRODUCT_RESET } from "../../constants/productConstants";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 const NewProduct = () => {
   const dispatch = useDispatch();
-  const { addToast } = useToasts();
   const navigate = useNavigate();
   const { error, loading, success } = useSelector((state) => state.newProduct);
   const [name, setName] = useState("");
@@ -36,15 +35,15 @@ const NewProduct = () => {
 
   useEffect(() => {
     if (error) {
-      addToast(error, { appearance: "error" });
+      toast.error(error);
       dispatch(clearErrors());
     }
     if (success) {
-      addToast("Product Create Successfully", { appearance: "success" });
+      toast.success("Product Create Successfully");
       navigate("/admin/dashboard");
       dispatch({ type: NEW_PRODUCT_RESET });
     }
-  }, [dispatch, addToast, error, success, navigate]);
+  }, [dispatch, error, success, navigate]);
 
   const createProductSubmitHandler = (e) => {
     e.preventDefault();

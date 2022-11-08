@@ -5,21 +5,20 @@ import {Typography} from '@mui/material'
 import Loader from '../layout/Loader/Loader'
 import {clearErrors,getOrderDetails} from '../../actions/orderAction'
 import {useSelector,useDispatch} from 'react-redux'
-import { useToasts } from "react-toast-notifications";
+import { toast } from "react-toastify";
 import './OrderDetails.css'
 import { Link } from 'react-router-dom'
 const OrderDetails = () => {
     const {loading,error,order} = useSelector(state=>state.orderDetails) 
     const {id} = useParams();
     const dispatch = useDispatch();
-    const { addToast } = useToasts();
    useEffect(()=>{
     if(error){
-      addToast(error,{appearance:"error"});
+      toast.error(error);
       dispatch(clearErrors())
     }
     dispatch(getOrderDetails(id))
-   },[dispatch,error,addToast,id])
+   },[dispatch,error,id])
   return (
     <Fragment>
       {

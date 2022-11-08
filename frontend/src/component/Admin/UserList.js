@@ -5,14 +5,13 @@ import Sidebar from './Sidebar.js';
 import {useDispatch, useSelector} from 'react-redux';
 import {allUsers,deleteUser,clearErrors} from '../../actions/userAction';
 import { DataGrid } from '@mui/x-data-grid';
-import {useToasts} from 'react-toast-notifications';
+import { toast } from "react-toastify";
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import {Button} from '@mui/material';
 import { DELETE_USER_RESET } from '../../constants/userConstants';
 const UserList = () => {
     const dispatch = useDispatch()
-    const {addToast} = useToasts()
     const navigate = useNavigate()
     const {users,error}= useSelector(state=>state.allUser)
     const {error:deleteError,isDeleted,message} = useSelector(state=>state.profile)
@@ -22,20 +21,20 @@ const UserList = () => {
 
     useEffect(()=>{
       if(error){
-        addToast(error,{appearance:"error"})
+        toast.error(error)
         dispatch(clearErrors());
       }
       if(deleteError){
-        addToast(deleteError,{appearance:"error"})
+        toast.error(deleteError)
         dispatch(clearErrors())
       }
       if(isDeleted){
-        addToast(message,{appearance:"success"})
+        toast.success(message)
         navigate("/admin/users")
         dispatch({type:DELETE_USER_RESET})
       }
         dispatch(allUsers())
-    },[dispatch,addToast,error,deleteError,navigate,isDeleted,message])
+    },[dispatch,error,deleteError,navigate,isDeleted,message])
     const columns =[
       {
         field:"id",

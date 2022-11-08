@@ -1,11 +1,12 @@
-
 import React, { Fragment, useEffect, useRef, useState } from "react";
 import { Link, useNavigate, useLocation} from "react-router-dom";
 import "./LoginSingup.css";
-import { MdMailOutline, MdLockOpen, MdFace } from "react-icons/md";
+import MailOutlineIcon from '@mui/icons-material/MailOutline';
+import LockOpenIcon from '@mui/icons-material/LockOpen';
+import FaceIcon from '@mui/icons-material/Face';
 import {useSelector,useDispatch} from "react-redux"
 import {clearErrors,login,register} from "../../actions/userAction"
-import {useToasts} from "react-toast-notifications"
+import { toast } from "react-toastify";
 import Loader from "../layout/Loader/Loader"
 import MetaData from "../layout/MetaData";
 const LoginSingup = () => {
@@ -14,7 +15,6 @@ const LoginSingup = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const location = useLocation()
-  const {addToast} = useToasts()
   const switcherTab = useRef(null);
   const loginTab = useRef(null);
   const registerTab = useRef(null);
@@ -64,13 +64,13 @@ const LoginSingup = () => {
   const redirect =location.search ? location.search.split("=")[1]:"/account"
   useEffect(()=>{
       if(error){
-        addToast(error, { appearance: 'error' });
+        toast.error(error);
          dispatch(clearErrors())
         }
         if(isAuthenticated){
           navigate(redirect)
         }
-  },[dispatch,error,isAuthenticated,navigate,addToast,redirect])
+  },[dispatch,error,isAuthenticated,navigate,redirect])
   const switchTabs = (e, tab) => {
     if (tab === "login") {
       switcherTab.current.classList.add("shiftToNeutral");
@@ -104,7 +104,7 @@ const LoginSingup = () => {
             </div>
             <form className="loginForm" ref={loginTab} onSubmit={loginSubmit}>
               <div className="loginEmail">
-                <MdMailOutline />
+                <MailOutlineIcon />
                 <input
                   type="email"
                   placeholder="Email"
@@ -114,7 +114,7 @@ const LoginSingup = () => {
                 />
               </div>
               <div className="loginPassword">
-                <MdLockOpen />
+                <LockOpenIcon />
                 <input
                   type="password"
                   placeholder="Password"
@@ -133,7 +133,7 @@ const LoginSingup = () => {
               onSubmit={registerSubmit}
             >
               <div className="signUpName">
-                <MdFace />
+                <FaceIcon />
                 <input
                   type="text"
                   placeholder="Name"
@@ -143,7 +143,7 @@ const LoginSingup = () => {
                 />
               </div>
               <div className="signUpEmail">
-                <MdMailOutline />
+                <MailOutlineIcon />
                 <input
                   type="email"
                   placeholder="Email"
@@ -153,7 +153,7 @@ const LoginSingup = () => {
                 />
               </div>
               <div className="signUpPassword">
-              <MdLockOpen />
+              <LockOpenIcon />
                 <input
                   type="password"
                   placeholder="Password"

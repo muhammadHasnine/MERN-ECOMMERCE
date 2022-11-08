@@ -1,7 +1,7 @@
 import React, { Fragment, useState } from 'react';
 import {Country,State} from 'country-state-city';
 import MetaData from "../layout/MetaData.js";
-import {useToasts} from 'react-toast-notifications';
+import { toast } from "react-toastify";
 import {useSelector,useDispatch} from 'react-redux';
 import './Shipping.css';
 import {saveShippingInfo} from '../../actions/cartAction';
@@ -15,7 +15,6 @@ import CheckoutSteps from '../cart/CheckoutSteps';
 import { useNavigate } from 'react-router-dom';
 const Shipping = () => {
   const dispatch = useDispatch()
-  const {addToast} = useToasts()
   const navigate = useNavigate()
   const {shippingInfo} = useSelector(state=>state.cart)
   const [address, setAddress] = useState(shippingInfo.address)
@@ -27,7 +26,7 @@ const Shipping = () => {
   const shippingSubmit = (e) =>{
     e.preventDefault();
     if(phoneNo.length < 11 || phoneNo.length > 11) {
-      addToast('Phone Number should be 10 digits Long', { appearance: 'error' });
+      toast.error('Phone Number should be 10 digits Long');
       return;
     }
     dispatch(saveShippingInfo({address,city,pinCode,phoneNo,country,state}))

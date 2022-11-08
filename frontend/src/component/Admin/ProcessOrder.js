@@ -2,9 +2,9 @@ import { Button, Typography } from "@mui/material";
 import React, { Fragment, useEffect, useState } from "react";
 import MetaData from "../layout/MetaData";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Sidebar from "./Sidebar";
-import { useToasts } from "react-toast-notifications";
+import { toast } from "react-toastify";
 import { clearErrors, getOrderDetails, updateOrder} from "../../actions/orderAction";
 import Loader from "../layout/Loader/Loader";
 import AccountTreeIcon from "@mui/icons-material/AccountTree";
@@ -15,7 +15,7 @@ const ProcessOrder = () => {
 
   const { id } = useParams();
   const dispatch = useDispatch();
-  const { addToast } = useToasts();
+
 
   const [status, setStatus] = useState("")
 
@@ -30,19 +30,19 @@ const ProcessOrder = () => {
 
   useEffect(() => {
     if (error) {
-      addToast(error, { appearance: "error" });
+      toast.error(error);
       dispatch(clearErrors());
     }
     if(updateError){
-      addToast(error, { appearance: "error" });
+      toast.error(updateError);
       dispatch(clearErrors());
     }
     if(isUpdated){
-      addToast("Order Update Successfully",{appearance:"success"})
+      toast.success("Order Update Successfully")
       dispatch({type:UPDATE_ORDERS_RESET})
     }
     dispatch(getOrderDetails(id));
-  }, [dispatch, addToast, error, id, updateError, isUpdated]);
+  }, [dispatch, error, id, updateError, isUpdated]);
   return (
     <Fragment>
       <MetaData title="Process Order --- Ecommerce" />

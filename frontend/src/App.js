@@ -14,7 +14,6 @@ import store from "./store";
 import { loadUser } from "./actions/userAction";
 import { useSelector } from "react-redux";
 import ProtectedRoute from "./component/Route/ProtectedRoute";
-import { ToastProvider } from "react-toast-notifications";
 import UpdateProfile from "./component/user/UpdateProfile";
 import UpdatePasseord from "./component/user/UpdatePasseord";
 import ForgotPassword from "./component/user/ForgotPassword";
@@ -38,6 +37,8 @@ import ProductReviews from "./component/Admin/ProductReviews";
 import Contact from './component/contact/Contact';
 import About from './component/about/About';
 import NotFound from './component/NotFound'
+import { ToastContainer } from "react-toastify";
+import "react-toastify/ReactToastify.min.css";
 const App = () => {
   const { isAuthenticated, user } = useSelector((state) => state.user);
 
@@ -51,11 +52,7 @@ const App = () => {
   }, []);
   window.addEventListener("contextmenu",(e)=>e.preventDefault())
   return (
-    <ToastProvider
-      autoDismiss
-      autoDismissTimeout={2000}
-      placement="bottom-center"
-    >
+  
       <Router>
         <Header />
         {isAuthenticated && <UserOption user={user} />}
@@ -120,8 +117,8 @@ const App = () => {
           <Route path="*" element={<NotFound/>} />  
         </Routes>
         <Footer />
+        <ToastContainer position="bottom-center" newestOnTop />
       </Router>
-    </ToastProvider>
   );
 };
 

@@ -11,14 +11,13 @@ import { Autoplay, Pagination, Navigation } from "swiper";
 import ReviewCard from "./ReviewCard";
 import Loader from "./layout/Loader/Loader"
 import {clearErrors} from "../actions/productAction"
-import { useToasts } from "react-toast-notifications";
 import MetaData from './layout/MetaData'
 import {Dialog,DialogActions,DialogContent,DialogTitle,Button,Rating} from '@mui/material'
 import { NEW_REVIEW_RESET } from "../constants/productConstants";
+import { toast } from "react-toastify";
 const ProductDetails = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
-  const {addToast} = useToasts()
   const { loading, product, error } = useSelector(
     (state) => state.productDetails
   );
@@ -49,7 +48,7 @@ const ProductDetails = () => {
 
   const addToCartHandler = () =>{
     dispatch(addItemsToCart(id,quantity))
-    addToast("Item Added To Cart",{appearance:'success'})
+    toast.success("Item Added To Cart")
   }
 
   const submitReviewToggle = () =>{
@@ -68,19 +67,19 @@ const ProductDetails = () => {
   }
   useEffect(() => {
     if(error){
-        addToast(error, { appearance: 'error' });
+        toast.error(error);
         dispatch(clearErrors())
     }
     if(reviewError){
-      addToast(reviewError, { appearance: 'error' });
+      toast.error(reviewError);
       dispatch(clearErrors())
     }
     if(success){
-      addToast("Review Submitted Successfully", { appearance: 'success' });
+      toast.success("Review Submitted Successfully");
       dispatch({type:NEW_REVIEW_RESET})
     }
     dispatch(getProductDetails(id));
-  }, [dispatch, id,error,addToast,success,reviewError]);
+  }, [dispatch, id,error,success,reviewError]);
   return (
     <Fragment>
     {loading ? <Loader /> : (

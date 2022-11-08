@@ -2,7 +2,7 @@ import React, { Fragment , useState } from 'react';
 import CheckoutSteps from '../cart/CheckoutSteps';
 import MetaData from '../layout/MetaData';
 import { Typography } from '@mui/material';
-import {useToasts} from 'react-toast-notifications'
+import { toast } from "react-toastify";
 import './Payment.css'
 import Mobile from '@mui/icons-material/SystemSecurityUpdate';
 import {useNavigate} from 'react-router-dom';
@@ -12,7 +12,6 @@ const Pyment = () => {
   const orderInfo = JSON.parse(sessionStorage.getItem("orderInfo"))
   const {shippingInfo,cartItems} = useSelector(state=>state.cart)
   const dispatch = useDispatch();
-  const {addToast} = useToasts();
   const navigate = useNavigate();
   const [radio, setRadio] = useState('')
   const [transId, setTransId] = useState('')
@@ -34,7 +33,7 @@ const Pyment = () => {
     dispatch(createOrder(order))
     e.preventDefault();
     
-    addToast("Payment Successfully Done!", { appearance: 'success' });
+    toast.success("Payment Successfully Done!");
     navigate("/success")
   }
   return (
