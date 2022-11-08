@@ -1,6 +1,7 @@
 
 ## MERN  ECOMMERCE
 Hi! My name is  **Muhammad Hasnine Sheak** , I have created this Ecommerce web application with **MERN STACK**
+`Live Demo` [https://bismillah-store.herokuapp.com](https://bismillah-store.herokuapp.com)
 # Install Dependencies
 **For Backend**  -  `npm i`
 
